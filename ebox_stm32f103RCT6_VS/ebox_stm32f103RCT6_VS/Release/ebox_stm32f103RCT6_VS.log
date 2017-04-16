@@ -1,0 +1,70 @@
+﻿  VisualGDB: Run "cmd.exe /c "C:\SysGCC\arm-eabi\bin\make.exe" CONFIG=Release -j8" in directory "E:\项目\学校\课堂\201602_成电英才创课\music_lamp\ebox_stm32f103RCT6_VS\ebox_stm32f103RCT6_VS" on local computer
+  C:/Keil_v5/ARM/ARMCC/bin/armcc.exe -ggdb -ffunction-sections -O3    --cpu Cortex-M3 --apcs=interwork -Imcu/stm32f10x/libraries/CMSIS/CM3/CoreSupport -Imcu/stm32f10x/libraries/STM32F10x_StdPeriph_Driver/inc -Imcu/stm32f10x/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x -Imcu/stm32f10x/ebox -Imcu/stm32f10x/ebox/core -Imcu/stm32f10x/ebox/Peripherals -Icommon/util -Icommon/edriver -Icommon/network -Icommon/fat -Icommon/edriver/WiFi -Iuser -Icommon/cJSON -Icommon/edriver/SFUD/sfud/inc -Icommon/edriver/SFUD/ebox -Icommon/bigiot -Icommon/usb_device_stack/USBDevice -Icommon/usb_device_stack/USBHID -Icommon/gui -Icommon/FreeModbus/modbus/ascii -Icommon/FreeModbus/modbus/include -Icommon/FreeModbus/modbus/rtu -Icommon/FreeModbus/modbus/tcp -Icommon/FreeModbus/port -IProject/stm32f10x/mdk/RTE -IC:/Keil_v5/ARM/PACK/Keil/STM32F1xx_DFP/1.0.5/Device/Include -IC:/Keil_v5/ARM/CMSIS/Include -Ios/FreeRTOS/Source/include -Ios/FreeRTOS/Source/portable/RVDS/ARM_CM3 -DNDEBUG=1 -DRELEASE=1 -D__UVISION_VERSION="514" -DSTM32F10X_HD      --cpu Cortex-M3 --apcs=interwork -DNDEBUG=1 -DRELEASE=1 -D__UVISION_VERSION="514" -DSTM32F10X_HD -c mcu/stm32f10x/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x/startup/arm/startup_stm32f10x_hd.s -o Release/startup_stm32f10x_hd.o --depend Release/startup_stm32f10x_hd.dep
+EXEC : warning : C3920W: Option '-g' repeated in concatenated options '-ggdb'.
+EXEC : warning : C3910W: Old syntax, please use '-D'.
+EXEC : Fatal error : C3917U: Concatenated options cannot have arguments: -D b
+EXEC : Fatal error : C3900U: Unrecognized option '-ffunction-sections'.
+EXEC : warning : C3920W: Option '-g' repeated in concatenated options '-ggdb'.
+EXEC : warning : C3910W: Old syntax, please use '-D'.
+EXEC : Fatal error : C3917U: Concatenated options cannot have arguments: -D b
+EXEC : Fatal error : C3900U: Unrecognized option '-ffunction-sections'.
+EXEC : warning : C3920W: Option '-g' repeated in concatenated options '-ggdb'.
+EXEC : warning : C3910W: Old syntax, please use '-D'.
+EXEC : Fatal error : C3917U: Concatenated options cannot have arguments: -D b
+EXEC : Fatal error : C3900U: Unrecognized option '-ffunction-sections'.
+EXEC : Fatal error : C3900U: Unrecognized option '-fno-exceptions'.
+EXEC : Fatal error : C3900U: Unrecognized option '-fno-rtti'.
+EXEC : warning : C3920W: Option '-g' repeated in concatenated options '-ggdb'.
+EXEC : warning : C3910W: Old syntax, please use '-D'.
+EXEC : Fatal error : C3917U: Concatenated options cannot have arguments: -D b
+  C:/Keil_v5/ARM/ARMCC/bin/armcc.exe -ggdb -ffunction-sections -O3    --cpu Cortex-M3 --apcs=interwork -Imcu/stm32f10x/libraries/CMSIS/CM3/CoreSupport -Imcu/stm32f10x/libraries/STM32F10x_StdPeriph_Driver/inc -Imcu/stm32f10x/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x -Imcu/stm32f10x/ebox -Imcu/stm32f10x/ebox/core -Imcu/stm32f10x/ebox/Peripherals -Icommon/util -Icommon/edriver -Icommon/network -Icommon/fat -Icommon/edriver/WiFi -Iuser -Icommon/cJSON -Icommon/edriver/SFUD/sfud/inc -Icommon/edriver/SFUD/ebox -Icommon/bigiot -Icommon/usb_device_stack/USBDevice -Icommon/usb_device_stack/USBHID -Icommon/gui -Icommon/FreeModbus/modbus/ascii -Icommon/FreeModbus/modbus/include -Icommon/FreeModbus/modbus/rtu -Icommon/FreeModbus/modbus/tcp -Icommon/FreeModbus/port -IProject/stm32f10x/mdk/RTE -IC:/Keil_v5/ARM/PACK/Keil/STM32F1xx_DFP/1.0.5/Device/Include -IC:/Keil_v5/ARM/CMSIS/Include -Ios/FreeRTOS/Source/include -Ios/FreeRTOS/Source/portable/RVDS/ARM_CM3 -DNDEBUG=1 -DRELEASE=1 -D__UVISION_VERSION="514" -DSTM32F10X_HD  -c common/cJSON/cJSON.c -o Release/cJSON.o --depend Release/cJSON.dep
+EXEC : Fatal error : C3900U: Unrecognized option '-ffunction-sections'.
+EXEC : Fatal error : C3900U: Unrecognized option '-fno-exceptions'.
+EXEC : Fatal error : C3900U: Unrecognized option '-fno-rtti'.
+EXEC : warning : C3920W: Option '-g' repeated in concatenated options '-ggdb'.
+EXEC : warning : C3910W: Old syntax, please use '-D'.
+EXEC : Fatal error : C3917U: Concatenated options cannot have arguments: -D b
+EXEC : Fatal error : C3900U: Unrecognized option '-ffunction-sections'.
+EXEC : Fatal error : C3900U: Unrecognized option '-fno-exceptions'.
+EXEC : Fatal error : C3900U: Unrecognized option '-fno-rtti'.
+EXEC : warning : C3920W: Option '-g' repeated in concatenated options '-ggdb'.
+EXEC : warning : C3910W: Old syntax, please use '-D'.
+EXEC : Fatal error : C3917U: Concatenated options cannot have arguments: -D b
+EXEC : Fatal error : C3900U: Unrecognized option '-ffunction-sections'.
+EXEC : Fatal error : C3900U: Unrecognized option '-fno-exceptions'.
+EXEC : Fatal error : C3900U: Unrecognized option '-fno-rtti'.
+  C:/Keil_v5/ARM/ARMCC/bin/armcc.exe -ggdb -ffunction-sections -fno-exceptions -fno-rtti -O3    --cpu Cortex-M3 --apcs=interwork -Imcu/stm32f10x/libraries/CMSIS/CM3/CoreSupport -Imcu/stm32f10x/libraries/STM32F10x_StdPeriph_Driver/inc -Imcu/stm32f10x/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x -Imcu/stm32f10x/ebox -Imcu/stm32f10x/ebox/core -Imcu/stm32f10x/ebox/Peripherals -Icommon/util -Icommon/edriver -Icommon/network -Icommon/fat -Icommon/edriver/WiFi -Iuser -Icommon/cJSON -Icommon/edriver/SFUD/sfud/inc -Icommon/edriver/SFUD/ebox -Icommon/bigiot -Icommon/usb_device_stack/USBDevice -Icommon/usb_device_stack/USBHID -Icommon/gui -Icommon/FreeModbus/modbus/ascii -Icommon/FreeModbus/modbus/include -Icommon/FreeModbus/modbus/rtu -Icommon/FreeModbus/modbus/tcp -Icommon/FreeModbus/port -IProject/stm32f10x/mdk/RTE -IC:/Keil_v5/ARM/PACK/Keil/STM32F1xx_DFP/1.0.5/Device/Include -IC:/Keil_v5/ARM/CMSIS/Include -Ios/FreeRTOS/Source/include -Ios/FreeRTOS/Source/portable/RVDS/ARM_CM3 -DNDEBUG=1 -DRELEASE=1 -D__UVISION_VERSION="514" -DSTM32F10X_HD  -c common/edriver/74HC595.cpp -o Release/74HC595.o --depend Release/74HC595.dep
+EXEC : warning : C3920W: Option '-g' repeated in concatenated options '-ggdb'.
+EXEC : warning : C3910W: Old syntax, please use '-D'.
+EXEC : Fatal error : C3917U: Concatenated options cannot have arguments: -D b
+EXEC : Fatal error : C3900U: Unrecognized option '-ffunction-sections'.
+EXEC : Fatal error : C3900U: Unrecognized option '-fno-exceptions'.
+EXEC : Fatal error : C3900U: Unrecognized option '-fno-rtti'.
+  make: *** [Release/startup_stm32f10x_hd.o] Error 1
+  make: *** Waiting for unfinished jobs....
+  make: *** [Release/cJSON.o] Error 1
+  make: *** [Release/74HC595.o] Error 1
+  make: *** [Release/at24c02.o] Error 1
+  make: *** [Release/at45db.o] Error 1
+  make: *** [Release/Button.o] Error 1
+  make: *** [Release/colorled.o] Error 1
+EXEC : warning : C3920W: Option '-g' repeated in concatenated options '-ggdb'.
+EXEC : warning : C3910W: Old syntax, please use '-D'.
+EXEC : Fatal error : C3917U: Concatenated options cannot have arguments: -D b
+EXEC : Fatal error : C3900U: Unrecognized option '-ffunction-sections'.
+EXEC : Fatal error : C3900U: Unrecognized option '-fno-exceptions'.
+EXEC : Fatal error : C3900U: Unrecognized option '-fno-rtti'.
+  C:/Keil_v5/ARM/ARMCC/bin/armcc.exe -ggdb -ffunction-sections -fno-exceptions -fno-rtti -O3    --cpu Cortex-M3 --apcs=interwork -Imcu/stm32f10x/libraries/CMSIS/CM3/CoreSupport -Imcu/stm32f10x/libraries/STM32F10x_StdPeriph_Driver/inc -Imcu/stm32f10x/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x -Imcu/stm32f10x/ebox -Imcu/stm32f10x/ebox/core -Imcu/stm32f10x/ebox/Peripherals -Icommon/util -Icommon/edriver -Icommon/network -Icommon/fat -Icommon/edriver/WiFi -Iuser -Icommon/cJSON -Icommon/edriver/SFUD/sfud/inc -Icommon/edriver/SFUD/ebox -Icommon/bigiot -Icommon/usb_device_stack/USBDevice -Icommon/usb_device_stack/USBHID -Icommon/gui -Icommon/FreeModbus/modbus/ascii -Icommon/FreeModbus/modbus/include -Icommon/FreeModbus/modbus/rtu -Icommon/FreeModbus/modbus/tcp -Icommon/FreeModbus/port -IProject/stm32f10x/mdk/RTE -IC:/Keil_v5/ARM/PACK/Keil/STM32F1xx_DFP/1.0.5/Device/Include -IC:/Keil_v5/ARM/CMSIS/Include -Ios/FreeRTOS/Source/include -Ios/FreeRTOS/Source/portable/RVDS/ARM_CM3 -DNDEBUG=1 -DRELEASE=1 -D__UVISION_VERSION="514" -DSTM32F10X_HD  -c common/edriver/at24c02.cpp -o Release/at24c02.o --depend Release/at24c02.dep
+  make: *** [Release/dht11.o] Error 1
+  C:/Keil_v5/ARM/ARMCC/bin/armcc.exe -ggdb -ffunction-sections -fno-exceptions -fno-rtti -O3    --cpu Cortex-M3 --apcs=interwork -Imcu/stm32f10x/libraries/CMSIS/CM3/CoreSupport -Imcu/stm32f10x/libraries/STM32F10x_StdPeriph_Driver/inc -Imcu/stm32f10x/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x -Imcu/stm32f10x/ebox -Imcu/stm32f10x/ebox/core -Imcu/stm32f10x/ebox/Peripherals -Icommon/util -Icommon/edriver -Icommon/network -Icommon/fat -Icommon/edriver/WiFi -Iuser -Icommon/cJSON -Icommon/edriver/SFUD/sfud/inc -Icommon/edriver/SFUD/ebox -Icommon/bigiot -Icommon/usb_device_stack/USBDevice -Icommon/usb_device_stack/USBHID -Icommon/gui -Icommon/FreeModbus/modbus/ascii -Icommon/FreeModbus/modbus/include -Icommon/FreeModbus/modbus/rtu -Icommon/FreeModbus/modbus/tcp -Icommon/FreeModbus/port -IProject/stm32f10x/mdk/RTE -IC:/Keil_v5/ARM/PACK/Keil/STM32F1xx_DFP/1.0.5/Device/Include -IC:/Keil_v5/ARM/CMSIS/Include -Ios/FreeRTOS/Source/include -Ios/FreeRTOS/Source/portable/RVDS/ARM_CM3 -DNDEBUG=1 -DRELEASE=1 -D__UVISION_VERSION="514" -DSTM32F10X_HD  -c common/edriver/at45db.cpp -o Release/at45db.o --depend Release/at45db.dep
+  C:/Keil_v5/ARM/ARMCC/bin/armcc.exe -ggdb -ffunction-sections -fno-exceptions -fno-rtti -O3    --cpu Cortex-M3 --apcs=interwork -Imcu/stm32f10x/libraries/CMSIS/CM3/CoreSupport -Imcu/stm32f10x/libraries/STM32F10x_StdPeriph_Driver/inc -Imcu/stm32f10x/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x -Imcu/stm32f10x/ebox -Imcu/stm32f10x/ebox/core -Imcu/stm32f10x/ebox/Peripherals -Icommon/util -Icommon/edriver -Icommon/network -Icommon/fat -Icommon/edriver/WiFi -Iuser -Icommon/cJSON -Icommon/edriver/SFUD/sfud/inc -Icommon/edriver/SFUD/ebox -Icommon/bigiot -Icommon/usb_device_stack/USBDevice -Icommon/usb_device_stack/USBHID -Icommon/gui -Icommon/FreeModbus/modbus/ascii -Icommon/FreeModbus/modbus/include -Icommon/FreeModbus/modbus/rtu -Icommon/FreeModbus/modbus/tcp -Icommon/FreeModbus/port -IProject/stm32f10x/mdk/RTE -IC:/Keil_v5/ARM/PACK/Keil/STM32F1xx_DFP/1.0.5/Device/Include -IC:/Keil_v5/ARM/CMSIS/Include -Ios/FreeRTOS/Source/include -Ios/FreeRTOS/Source/portable/RVDS/ARM_CM3 -DNDEBUG=1 -DRELEASE=1 -D__UVISION_VERSION="514" -DSTM32F10X_HD  -c common/edriver/Button.cpp -o Release/Button.o --depend Release/Button.dep
+  C:/Keil_v5/ARM/ARMCC/bin/armcc.exe -ggdb -ffunction-sections -fno-exceptions -fno-rtti -O3    --cpu Cortex-M3 --apcs=interwork -Imcu/stm32f10x/libraries/CMSIS/CM3/CoreSupport -Imcu/stm32f10x/libraries/STM32F10x_StdPeriph_Driver/inc -Imcu/stm32f10x/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x -Imcu/stm32f10x/ebox -Imcu/stm32f10x/ebox/core -Imcu/stm32f10x/ebox/Peripherals -Icommon/util -Icommon/edriver -Icommon/network -Icommon/fat -Icommon/edriver/WiFi -Iuser -Icommon/cJSON -Icommon/edriver/SFUD/sfud/inc -Icommon/edriver/SFUD/ebox -Icommon/bigiot -Icommon/usb_device_stack/USBDevice -Icommon/usb_device_stack/USBHID -Icommon/gui -Icommon/FreeModbus/modbus/ascii -Icommon/FreeModbus/modbus/include -Icommon/FreeModbus/modbus/rtu -Icommon/FreeModbus/modbus/tcp -Icommon/FreeModbus/port -IProject/stm32f10x/mdk/RTE -IC:/Keil_v5/ARM/PACK/Keil/STM32F1xx_DFP/1.0.5/Device/Include -IC:/Keil_v5/ARM/CMSIS/Include -Ios/FreeRTOS/Source/include -Ios/FreeRTOS/Source/portable/RVDS/ARM_CM3 -DNDEBUG=1 -DRELEASE=1 -D__UVISION_VERSION="514" -DSTM32F10X_HD  -c common/edriver/colorled.cpp -o Release/colorled.o --depend Release/colorled.dep
+  C:/Keil_v5/ARM/ARMCC/bin/armcc.exe -ggdb -ffunction-sections -fno-exceptions -fno-rtti -O3    --cpu Cortex-M3 --apcs=interwork -Imcu/stm32f10x/libraries/CMSIS/CM3/CoreSupport -Imcu/stm32f10x/libraries/STM32F10x_StdPeriph_Driver/inc -Imcu/stm32f10x/libraries/CMSIS/CM3/DeviceSupport/ST/STM32F10x -Imcu/stm32f10x/ebox -Imcu/stm32f10x/ebox/core -Imcu/stm32f10x/ebox/Peripherals -Icommon/util -Icommon/edriver -Icommon/network -Icommon/fat -Icommon/edriver/WiFi -Iuser -Icommon/cJSON -Icommon/edriver/SFUD/sfud/inc -Icommon/edriver/SFUD/ebox -Icommon/bigiot -Icommon/usb_device_stack/USBDevice -Icommon/usb_device_stack/USBHID -Icommon/gui -Icommon/FreeModbus/modbus/ascii -Icommon/FreeModbus/modbus/include -Icommon/FreeModbus/modbus/rtu -Icommon/FreeModbus/modbus/tcp -Icommon/FreeModbus/port -IProject/stm32f10x/mdk/RTE -IC:/Keil_v5/ARM/PACK/Keil/STM32F1xx_DFP/1.0.5/Device/Include -IC:/Keil_v5/ARM/CMSIS/Include -Ios/FreeRTOS/Source/include -Ios/FreeRTOS/Source/portable/RVDS/ARM_CM3 -DNDEBUG=1 -DRELEASE=1 -D__UVISION_VERSION="514" -DSTM32F10X_HD  -c common/edriver/dht11.cpp -o Release/dht11.o --depend Release/dht11.dep
+  -------------------------------------------------------------
+  Command exited with code 2
+  Executable: cmd.exe
+  Arguments: /c "C:\SysGCC\arm-eabi\bin\make.exe" CONFIG=Release -j8
+  Directory: E:\项目\学校\课堂\201602_成电英才创课\music_lamp\ebox_stm32f103RCT6_VS\ebox_stm32f103RCT6_VS
+VisualGDB : error : Command-line action failed
+EXEC : error : Build has failed. See the Output window for more details.
+C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.MakeFile.Targets(41,5): error MSB3073: 命令“"C:\Program Files (x86)\Sysprogs\VisualGDB\\VisualGDB.exe" /build "E:\项目\学校\课堂\201602_成电英才创课\music_lamp\ebox_stm32f103RCT6_VS\ebox_stm32f103RCT6_VS\ebox_stm32f103RCT6_VS.vcxproj" "/solution:E:\项目\学校\课堂\201602_成电英才创课\music_lamp\ebox_stm32f103RCT6_VS\ebox_stm32f103RCT6_VS.sln" "/config:Release" "/platform:Win32"”已退出，代码为 1。
