@@ -656,6 +656,9 @@
     <ClCompile Include="user\music_lamp.cpp">
       <Filter>Source files\user</Filter>
     </ClCompile>
+    <ClCompile Include="user\temp2rgb.cpp">
+      <Filter>Source files\user</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\bigiot\bigiot.h">
@@ -1236,6 +1239,9 @@
     </ClInclude>
     <ClInclude Include="user\music_lamp.h">
       <Filter>Header files\common\edriver</Filter>
+    </ClInclude>
+    <ClInclude Include="user\temp2rgb.h">
+      <Filter>Header files\user</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

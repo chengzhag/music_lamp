@@ -61,8 +61,8 @@ class MusicLamp :WS2812
 	//颜色变换模式参数
 	float rippleModeCurrentH;
 	float rippleModeIncrease;
-public:
 
+public:
 	LampModule belt, innerRing, outerRing;
 
 	MusicLamp(Gpio *p_pin);

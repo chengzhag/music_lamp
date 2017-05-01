@@ -66,7 +66,7 @@ MusicLamp::MusicLamp(Gpio *p_pin) :
 	brightness(0.2),
 	lightModeTemp(6000),
 	rippleModeCurrentH(0),
-	rippleModeIncrease(1)
+	rippleModeIncrease(0.2)
 {
 	colorModeHSV.h = 0;
 	colorModeHSV.s = 0;
