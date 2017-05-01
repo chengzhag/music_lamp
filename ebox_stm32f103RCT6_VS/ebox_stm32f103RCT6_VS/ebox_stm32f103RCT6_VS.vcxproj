@@ -189,6 +189,7 @@
     <ClCompile Include="user\bsp.cpp" />
     <ClCompile Include="user\main.cpp" />
     <ClCompile Include="user\music_lamp.cpp" />
+    <ClCompile Include="user\temp2rgb.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\bigiot\bigiot.h" />
@@ -384,6 +385,7 @@
     <ClInclude Include="user\FreeRTOSConfig.h" />
     <ClInclude Include="user\music_lamp.h" />
     <ClInclude Include="user\os_cfg.h" />
+    <ClInclude Include="user\temp2rgb.h" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="MCU.xml" />

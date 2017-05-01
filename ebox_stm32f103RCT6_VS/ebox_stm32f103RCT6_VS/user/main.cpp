@@ -1,137 +1,45 @@
-﻿///*
-//file   : *.cpp
-//author : shentq
-//version: V1.0
-//date   : 2015/7/5
-//
-//Copyright 2015 shentq. All Rights Reserved.
-//*/
-//#include "freertos.h"
-//#include "task.h"
-//#include "queue.h"
-//
-////STM32 RUN IN eBox
-//#include "ebox.h"
-//#define LED_0 0
-//#define LED_1 1
-//#define LED_2 2
-//#define LED_3 3
-//
-//void led_on(int n)
-//{
-//	switch (n)
-//	{
-//	case LED_0:
-//		PB8 = 1;
-//		break;
-//	case LED_1:
-//		PB9 = 1;
-//		break;
-//	case LED_2:
-//		PB10 = 1;
-//		break;
-//	default:
-//		break;
-//	}
-//}
-//
-//void led_off(int n)
-//{
-//	switch (n)
-//	{
-//	case LED_0:
-//		PB8 = 0;
-//		break;
-//	case LED_1:
-//		PB9 = 0;
-//		break;
-//	case LED_2:
-//		PB10 = 0;
-//		break;
-//	default:
-//		break;
-//	}
-//}
-//
-//
-//static void vLEDTask(void *pvParameters)
-//{
-//	while (1)
-//	{
-//		led_on((int)pvParameters);
-//		vTaskDelay(500 / portTICK_RATE_MS);
-//		led_off((int)pvParameters);
-//		vTaskDelay(500 / portTICK_RATE_MS);
-//	}
-//}
-//
-//void setup()
-//{
-//	ebox_init();
-//	PB8.mode(OUTPUT_PP);
-//	PB9.mode(OUTPUT_PP);
-//	PB10.mode(OUTPUT_PP);
-//
-//	set_systick_user_event_per_sec(configTICK_RATE_HZ);
-//	attach_systick_user_event(xPortSysTickHandler);
-//
-//	xTaskCreate(vLEDTask, "LED0", configMINIMAL_STACK_SIZE, (void *)0, tskIDLE_PRIORITY + 3, NULL);
-//	xTaskCreate(vLEDTask, "LED1", configMINIMAL_STACK_SIZE, (void *)1, tskIDLE_PRIORITY + 3, NULL);
-//	xTaskCreate(vLEDTask, "LED2", configMINIMAL_STACK_SIZE, (void *)2, tskIDLE_PRIORITY + 3, NULL);
-//
-//	/* Start the scheduler. */
-//	vTaskStartScheduler();
-//
-//}
-//int main(void)
-//{
-//	setup();
-//	while (1)
-//	{
-//	}
-//
-//	return 0;
-//
-//}
-
-
-/*
-file   : *.cpp
-author : shentq
-version: V1.0
-date   : 2015/7/5
-
-Copyright 2015 shentq. All Rights Reserved.
-*/
-
-//STM32 RUN IN eBox
-
-
+﻿#include "freertos.h"
+#include "task.h"
+#include "queue.h"
 #include "ebox.h"
 #include "math.h"
 #include "music_lamp.h"
 
 MusicLamp lamp(&PB0);
 
+static void vLampTask(void *pvParameters)
+{
+	while (1)
+	{
+		lamp.refresh();
+		uart1.printf("ok\r\n");
+		vTaskDelay(10 / portTICK_RATE_MS);
+	}
+}
+
+
 void setup()
 {
 	ebox_init();
 	uart1.begin(9600);
 	lamp.begin();
+	lamp.setMode(Music_Lamp_Mode_Ripple);
+	lamp.setBrightness(0.1);
+	lamp.setRippleModeIncrease(0.2);
+
+	set_systick_user_event_per_sec(configTICK_RATE_HZ);
+	attach_systick_user_event(xPortSysTickHandler);
+
+	xTaskCreate(vLampTask, "LampTask", configMINIMAL_STACK_SIZE, (void *)0, tskIDLE_PRIORITY + 3, NULL);
+
+	vTaskStartScheduler();
 }
 int main(void)
 {
 	setup();
-	int i = 0;
 	while (1)
 	{
-		lamp.belt.setAllDataHSV(i, 1, 0.1);
-		lamp.innerRing.setAllDataHSV(i + 120, 1, 0.1);
-		lamp.outerRing.setAllDataHSV(i + 240, 1, 0.1);
-		lamp.sendData();
-		i++;
-		//lamp.rainbowLoop(0.1);
-		delay_ms(2);
+
 	}
 
 }
