@@ -188,6 +188,7 @@
     <ClCompile Include="os\FreeRTOS\Source\portable\RVDS\ARM_CM3\port.c" />
     <ClCompile Include="user\bsp.cpp" />
     <ClCompile Include="user\main.cpp" />
+    <ClCompile Include="user\music_lamp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\bigiot\bigiot.h" />
@@ -381,6 +382,7 @@
     <ClInclude Include="user\app_cfg.h" />
     <ClInclude Include="user\bsp.h" />
     <ClInclude Include="user\FreeRTOSConfig.h" />
+    <ClInclude Include="user\music_lamp.h" />
     <ClInclude Include="user\os_cfg.h" />
   </ItemGroup>
   <ItemGroup>

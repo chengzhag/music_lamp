@@ -109,25 +109,29 @@ Copyright 2015 shentq. All Rights Reserved.
 
 #include "ebox.h"
 #include "math.h"
-#include "ws2812.h"
+#include "music_lamp.h"
 
-WS2812 led(&PB0);
-
+MusicLamp lamp(&PB0);
 
 void setup()
 {
 	ebox_init();
 	uart1.begin(9600);
-	led.begin();
-
+	lamp.begin();
 }
 int main(void)
 {
 	setup();
+	int i = 0;
 	while (1)
 	{
-		led.rainbow_Loop();
-
+		lamp.belt.setAllDataHSV(i, 1, 0.1);
+		lamp.innerRing.setAllDataHSV(i + 120, 1, 0.1);
+		lamp.outerRing.setAllDataHSV(i + 240, 1, 0.1);
+		lamp.sendData();
+		i++;
+		//lamp.rainbowLoop(0.1);
+		delay_ms(2);
 	}
 
 }

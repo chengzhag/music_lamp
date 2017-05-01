@@ -653,6 +653,9 @@
     <ClCompile Include="common\cJSON\cJSON.c">
       <Filter>Source files\common\cJSON</Filter>
     </ClCompile>
+    <ClCompile Include="user\music_lamp.cpp">
+      <Filter>Source files\user</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\bigiot\bigiot.h">
@@ -1229,6 +1232,9 @@
       <Filter>Header files\user</Filter>
     </ClInclude>
     <ClInclude Include="common\edriver\MPU6050.h">
+      <Filter>Header files\common\edriver</Filter>
+    </ClInclude>
+    <ClInclude Include="user\music_lamp.h">
       <Filter>Header files\common\edriver</Filter>
     </ClInclude>
   </ItemGroup>

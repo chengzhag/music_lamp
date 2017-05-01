@@ -2,7 +2,6 @@
 #include <stdlib.h>							// For rand() 		function
 #include <math.h>							// For floor() 		function
 #include "color_convert.h"
-#include "font.h"
 
 /* Buffer that holds one complete DMA transmission.
  *
@@ -12,10 +11,6 @@
  * This leaves us with a maximum string length of
  * (2^16 bytes per DMA stream - 42 bytes)/24 bytes per LED = 2728 LEDs.
  */
-uint8_t rgb1[LED_COUNT][3];						//Array that will store color data
-
-uint8_t led_Colors[LED_COUNT];						//Array of integers that will function as indexes for the rgb array
-uint8_t ledBuff[LED_BUFFER_SIZE];					//Array of data to be sent to leds.
 
 
 
@@ -73,7 +68,7 @@ void WS2812::DMA_Config(void)
     DMA_DeInit(DMA1_Channel2);							// Deinitialize DAM1 Channel 1 to their default reset values.
 
     DMA_InitStruct.DMA_PeripheralBaseAddr = (uint32_t)&TIM3->CCR3; 			// Specifies Physical address of the peripheral in this case Timer 2 CCR1
-    DMA_InitStruct.DMA_MemoryBaseAddr = (uint32_t)&ledBuff;				// Specifies the buffer memory address
+    DMA_InitStruct.DMA_MemoryBaseAddr = (uint32_t)&dmaBuff;				// Specifies the buffer memory address
     DMA_InitStruct.DMA_DIR = DMA_DIR_PeripheralDST;					// Data transfered from memory to peripheral
     DMA_InitStruct.DMA_BufferSize = LED_BUFFER_SIZE;				// Specifies the buffer size
     DMA_InitStruct.DMA_PeripheralInc = DMA_PeripheralInc_Disable;			// Do not incrament the peripheral address
@@ -90,10 +85,10 @@ void WS2812::DMA_Config(void)
 
 }
 
-void WS2812::send_data(uint8_t *led_Colors, uint16_t len)
+void WS2812::send_data()
 {
 
-
+	uint16_t len = LED_COUNT;
     uint8_t i, j = 0;
     uint16_t buffersize = (24 * len) + 42, memaddr = 0;
 
@@ -104,16 +99,16 @@ void WS2812::send_data(uint8_t *led_Colors, uint16_t len)
     {
         for (i = 0; i < 3; i++)  						// Set RGB LED color R -> i=0, G -> i=1, B -> i=2
         {
-            temp = rgb1[led_Colors[led]][i];
+            temp = rgbData[led][i];
             for (j = 0; j < 8; j++)  					// Set 8 bits of color
             {
                 if ((temp) & 0x80)  					// Data sent MSB first, j = 0 is MSB j = 7 is LSB
                 {
-                    ledBuff[memaddr++] = PWM_HIGH_WIDTH; 		// Compare value for logical 1
+                    dmaBuff[memaddr++] = PWM_HIGH_WIDTH; 		// Compare value for logical 1
                 }
                 else
                 {
-                    ledBuff[memaddr++] = PWM_LOW_WIDTH;		// Compare value for logical 0
+                    dmaBuff[memaddr++] = PWM_LOW_WIDTH;		// Compare value for logical 0
                 }
                 temp = temp << 1;
             }
@@ -126,7 +121,7 @@ void WS2812::send_data(uint8_t *led_Colors, uint16_t len)
     // Add needed delay at end of byte cycle, pulsewidth = 0
     while(memaddr < buffersize)
     {
-        ledBuff[memaddr++] = 0;
+        dmaBuff[memaddr++] = 0;
     }
 
     DMA_SetCurrDataCounter(DMA1_Channel2, LED_BUFFER_SIZE); 	// load number of bytes to be transferred
@@ -137,20 +132,9 @@ void WS2812::send_data(uint8_t *led_Colors, uint16_t len)
     DMA_Cmd(DMA1_Channel2, DISABLE); 				// disable DMA channel 1
     DMA_ClearFlag(DMA1_FLAG_TC2); 					// clear DMA1 Channel 1 transfer complete flag
 }
-uint8_t table[] =
-{
-    '-', '-', '-', 'x', 'x', '-', '-', '-',
-    '-', '-', 'x', 'x', 'x', 'x', '-', '-',
-    '-', 'x', 'x', 'x', 'x', 'x', 'x', '-',
-    'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x',
-    '-', 'x', 'x', 'x', 'x', 'x', 'x', '-',
-    '-', 'x', 'x', 'x', 'x', 'x', 'x', '-',
-    '-', 'x', 'x', 'x', 'x', 'x', 'x', '-',
-    '-', 'x', 'x', 'x', 'x', 'x', 'x', '-',
 
-};
 //显示图形
-void WS2812::rainbow_Loop()
+void WS2812::rainbow_Loop(float brightness)
 {
     COLOR_HSV hsv;
     //COLOR_HSL hsl;
@@ -162,173 +146,27 @@ void WS2812::rainbow_Loop()
     //    hsl.s = 1;
     //    hsl.l = 0.5;
 
-    hsv.s = 1;
-    hsv.v = 0.1;
     for(i = 0; i < 360; i++)
     {
-        for(int j = 0; j < 64 ; j ++)
+        for(int j = 0; j < LED_COUNT; j ++)
         {
-            if((table[ j] == 'x') & (1 << k))
-            {
-                //HSV模式
-                hsv.h = (i + j) % 360;
-                hsv.s = 1;
-                hsv.v = 0.1;
-                HSV_to_RGB(hsv, rgb);
-                //HSL模式
-                //                hsl.h = (i+j)%360;
-                //                hsl.s = 1;
-                //                hsl.l = 0.5;
-                //                HSL_to_RGB(hsl,rgb);
+			//HSV模式
+			hsv.h = (i + j) % 360;
+			hsv.s = 1;
+			hsv.v = brightness;
+			HSV_to_RGB(hsv, rgb);
+			//HSL模式
+			//                hsl.h = (i+j)%360;
+			//                hsl.s = 1;
+			//                hsl.l = 0.5;
+			//                HSL_to_RGB(hsl,rgb);
 
-                rgb1[j][0] = rgb.r;// (uint8_t)floor(r/20+j);
-                rgb1[j][1] = rgb.g;//(uint8_t)floor(g/20+j);
-                rgb1[j][2] = rgb.b;//(uint8_t)floor(b/20+j);
-
-            }
-            else
-            {
-                //HSV模式
-                hsv.h = (i + j) % 360;
-                hsv.s = 1;
-                hsv.v = 0;
-                HSV_to_RGB(hsv, rgb);
-
-
-                //                hsl.h = (i+j)%360;
-                //                hsl.s = 1;
-                //                hsl.l = 0.5;
-                //                HSL_to_RGB(hsl,rgb);
-
-
-                rgb1[j][0] = rgb.r;// (uint8_t)floor(r/20+j);
-                rgb1[j][1] = rgb.g;//(uint8_t)floor(g/20+j);
-                rgb1[j][2] = rgb.b;//(uint8_t)floor(b/20+j);
-
-            }
-
-            led_Colors[j] = j;
+			rgbData[j][0] = rgb.r;// (uint8_t)floor(r/20+j);
+			rgbData[j][1] = rgb.g;//(uint8_t)floor(g/20+j);
+			rgbData[j][2] = rgb.b;//(uint8_t)floor(b/20+j);
         }
         // Send data to LEDs
-        send_data(led_Colors, LED_COUNT);
-        delay_ms(2);
+        send_data();
     }
 }
 
-//遍历字符串
-void WS2812::rainbow_Loop1()
-{
-    COLOR_HSV hsv;
-    //COLOR_HSL hsl;
-    COLOR_RGB rgb;
-    //	float   r = 255, g = 0, b = 0;
-    uint16_t i, k;
-    //		hsl.s = 1;
-    //		hsl.l = 0.5;
-
-    hsv.s = 1;
-    hsv.v = 0.1;
-    for(int t = 0; t < 92; t++)
-        for(i = 0; i < 64; i++)
-        {
-            for(int j = 0; j < 8 ; j ++)
-                for(k = 0; k < 8; k ++)
-                {
-                    if(j > 1)
-                    {
-                        if(font6x8[t][8 - j] & (1 << k))
-                        {
-                            hsv.h = (i * 4) % 360;
-                            hsv.s = 1;
-                            hsv.v = 0.1;
-
-
-                            //								hsl.h = (i + j)%360;
-                            //								hsl.s = 1;
-                            //								hsl.l = 0.5;
-
-                            HSV_to_RGB(hsv, rgb);
-                            //HSL_to_RGB(hsl,rgb);
-                            rgb1[j * 8 + k][0] = rgb.r; // (uint8_t)floor(r/20+j);
-                            rgb1[j * 8 + k][1] = rgb.g; //(uint8_t)floor(g/20+j);
-                            rgb1[j * 8 + k][2] = rgb.b; //(uint8_t)floor(b/20+j);
-                        }
-                        else
-                        {
-                            hsv.h = (i * 4) % 360;
-                            hsv.s = 1;
-                            hsv.v = 0;
-
-
-                            //								hsl.h = (i + j)%360;
-                            //								hsl.s = 1;
-                            //								hsl.l = 0.5;
-
-                            HSV_to_RGB(hsv, rgb);
-                            //HSL_to_RGB(hsl,rgb);
-
-                            rgb1[j * 8 + k][0] = rgb.r; // (uint8_t)floor(r/20+j);
-                            rgb1[j * 8 + k][1] = rgb.g; //(uint8_t)floor(g/20+j);
-                            rgb1[j * 8 + k][2] = rgb.b; //(uint8_t)floor(b/20+j);
-
-                        }
-                    }
-                    else
-                    {
-                        hsv.h = 240;
-                        hsv.s = 1;
-                        hsv.v = 0;
-
-
-                        //								hsl.h = (i + j)%360;
-                        //								hsl.s = 1;
-                        //								hsl.l = 0.5;
-
-                        HSV_to_RGB(hsv, rgb);
-                        //	HSL_to_RGB(hsl,rgb);
-
-                        rgb1[j * 8 + k][0] = rgb.g; // (uint8_t)floor(r/20+j);
-                        rgb1[j * 8 + k][1] = rgb.r; //(uint8_t)floor(g/20+j);
-                        rgb1[j * 8 + k][2] = rgb.b; //(uint8_t)floor(b/20+j);
-
-                    }
-                    int l, h, l_offset, h_offset;
-                    if(i > 8)
-                        l_offset = i * 8 / 64;
-                    h_offset = 0;
-
-                    if(l_offset > 0)
-                    {
-                        l = j + l_offset;
-                        l %= 8 ;
-                    }
-                    else
-                    {
-                        if(j + l_offset >= 0)
-                            l = j + l_offset;
-                        else
-                            l = 8 + j + l_offset;
-                    }
-
-                    if(h_offset > 0)
-                    {
-                        h = k + h_offset;
-                        h %= 8 ;
-                    }
-                    else
-                    {
-                        if(k + h_offset >= 0)
-                            h = k + h_offset;
-                        else
-                            h =  k + h_offset + 8;
-                    }
-
-                    led_Colors[j * 8 + k] = l * 8 + h;
-
-                }
-
-            // Send data to LEDs
-            send_data(led_Colors, LED_COUNT);
-            delay_ms(5);
-        }
-}
