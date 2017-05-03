@@ -2,8 +2,8 @@
 #include "task.h"
 #include "queue.h"
 #include "ebox.h"
-#include "math.h"
 #include "music_lamp.h"
+#include "uart_string.h"
 
 MusicLamp lamp(&PB0);
 UartString uart1String(&uart1);

@@ -1243,6 +1243,9 @@
     <ClInclude Include="user\temp2rgb.h">
       <Filter>Header files\user</Filter>
     </ClInclude>
+    <ClInclude Include="common\edriver\uart_string.h">
+      <Filter>Header files\common\edriver</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />

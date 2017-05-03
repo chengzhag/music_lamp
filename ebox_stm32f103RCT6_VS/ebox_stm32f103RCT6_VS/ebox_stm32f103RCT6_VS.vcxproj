@@ -228,6 +228,7 @@
     <ClInclude Include="common\edriver\parallel_gpio.h" />
     <ClInclude Include="common\edriver\si4432.h" />
     <ClInclude Include="common\edriver\TM1638.h" />
+    <ClInclude Include="common\edriver\uart_string.h" />
     <ClInclude Include="common\edriver\ultrasonic_wave.h" />
     <ClInclude Include="common\edriver\w25x16.h" />
     <ClInclude Include="common\edriver\w5500.h" />
