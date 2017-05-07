@@ -24,9 +24,9 @@ void setup()
 	lamp.begin();
 	lamp.setMode(Music_Lamp_Mode_Light);
 	lamp.setBrightness(0.5);
-	lamp.setLightModeTemp(2500);
+	lamp.setLightModeTemp(6000);
 	lamp.setRippleModeIncrease(0.5);
-	lamp.setPower(1);
+	lamp.setPower(0);
 
 	set_systick_user_event_per_sec(configTICK_RATE_HZ);
 	attach_systick_user_event(xPortSysTickHandler);

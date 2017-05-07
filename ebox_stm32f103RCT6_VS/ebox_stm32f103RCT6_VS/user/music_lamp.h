@@ -8,6 +8,7 @@
 #include "uart_string.h"
 #include "signal_stream.h"
 #include "cJSON.h"
+#include <string.h>
 
 
 //Ì¨µÆled²ÎÊý
