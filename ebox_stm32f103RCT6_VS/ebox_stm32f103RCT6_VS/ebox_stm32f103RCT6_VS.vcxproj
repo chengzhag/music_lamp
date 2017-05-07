@@ -109,6 +109,7 @@
     <ClCompile Include="common\edriver\parallel_gpio.cpp" />
     <ClCompile Include="common\edriver\si4432.cpp" />
     <ClCompile Include="common\edriver\TM1638.cpp" />
+    <ClCompile Include="common\edriver\uart_string.cpp" />
     <ClCompile Include="common\edriver\ultrasonic_wave.cpp" />
     <ClCompile Include="common\edriver\w25x16.cpp" />
     <ClCompile Include="common\edriver\w5500.cpp" />

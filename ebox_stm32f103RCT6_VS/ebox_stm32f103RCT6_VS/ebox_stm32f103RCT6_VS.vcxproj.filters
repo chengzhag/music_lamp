@@ -659,6 +659,9 @@
     <ClCompile Include="user\temp2rgb.cpp">
       <Filter>Source files\user</Filter>
     </ClCompile>
+    <ClCompile Include="common\edriver\uart_string.cpp">
+      <Filter>Source files\common\edriver</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common\bigiot\bigiot.h">

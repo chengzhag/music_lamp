@@ -31,8 +31,8 @@ void setup()
 	uart1String.attach(uart1StringReceivedEvent);
 	lamp.begin();
 	lamp.setMode(Music_Lamp_Mode_Ripple);
-	lamp.setBrightness(0.1);
-	lamp.setRippleModeIncrease(0.2);
+	lamp.setBrightness(0.3);
+	lamp.setRippleModeIncrease(1);
 
 	set_systick_user_event_per_sec(configTICK_RATE_HZ);
 	attach_systick_user_event(xPortSysTickHandler);
