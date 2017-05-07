@@ -106,13 +106,13 @@ T MusicLamp::SoundEnhance<T, Size>::pushAndGetEnhancedSignal(T signal)
 		signal += SignalStream<T, Size>::operator [](i) * 2 * (1 - i / MUSIC_LAMP_SIGNAL_STREAM_FILTER_WINDOW_SIZE);
 	}
 	signal /= MUSIC_LAMP_SIGNAL_STREAM_FILTER_WINDOW_SIZE;
-	float enhancedSignal = (signal - (float)min) / factor;
+	float enhancedSignal = (signal - min) / factor;
 	return;
 }
 
 void MusicLamp::stringReceivedEvent(char* str)
 {
-	uart.printf(str);
+	cJSON *json;
 }
 
 void MusicLamp::rippleModeRefresh(float brightness)
@@ -143,11 +143,12 @@ MusicLamp::MusicLamp(Gpio *p_pin, Gpio *a_pin, Uart *uartX) :
 	rippleModeCurrentH(0),
 	rippleModeIncrease(0.2),
 	uart(uartX),
-	analogPin(a_pin)
+	analogPin(a_pin),
+	power(0)
 {
 	colorModeHSV.h = 0;
-	colorModeHSV.s = 0;
-	colorModeHSV.v = 1;
+	colorModeHSV.s = 1;
+	colorModeHSV.v = 0.2;
 }
 
 void MusicLamp::printf(const char *fmt, ...)
@@ -175,23 +176,30 @@ void MusicLamp::setMode(Music_Lamp_Mode mode)
 
 void MusicLamp::refresh()
 {
-	switch (mode)
+	if (power)
 	{
-	case Music_Lamp_Mode_Light:
-		COLOR_RGB rgb = temp2rgb(lightModeTemp);
-		setAllDataRGB(rgb.r*brightness, rgb.g*brightness, rgb.b*brightness);
-		break;
-	case Music_Lamp_Mode_Color:
-		setAllDataHSV(colorModeHSV);
-		break;
-	case Music_Lamp_Mode_Ripple:
-		rippleModeRefresh(brightness);
-		break;
-	case Music_Lamp_Mode_Music:
-		musicModeRefresh();
-		break;
-	default:
-		break;
+		switch (mode)
+		{
+		case Music_Lamp_Mode_Light:
+			COLOR_RGB rgb = temp2rgb(lightModeTemp);
+			setAllDataRGB(rgb.r*brightness, rgb.g*brightness, rgb.b*brightness);
+			break;
+		case Music_Lamp_Mode_Color:
+			setAllDataHSV(colorModeHSV);
+			break;
+		case Music_Lamp_Mode_Ripple:
+			rippleModeRefresh(brightness);
+			break;
+		case Music_Lamp_Mode_Music:
+			musicModeRefresh();
+			break;
+		default:
+			break;
+		}
+	}
+	else
+	{
+		setAllDataRGB(0, 0, 0);
 	}
 	sendData();
 }
@@ -223,6 +231,11 @@ void MusicLamp::setAllDataHSV(int h, float s, float v)
 	hsv.s = s;
 	hsv.v = v;
 	setAllDataHSV(hsv);
+}
+
+void MusicLamp::setPower(int power)
+{
+	this->power = power;
 }
 
 void MusicLamp::setBrightness(float brightness)

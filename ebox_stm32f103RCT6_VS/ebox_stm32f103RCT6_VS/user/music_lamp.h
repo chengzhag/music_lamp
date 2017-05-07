@@ -7,6 +7,7 @@
 #include "temp2rgb.h"
 #include "uart_string.h"
 #include "signal_stream.h"
+#include "cJSON.h"
 
 
 //台灯led参数
@@ -22,7 +23,7 @@
 
 //台灯音乐模式参数
 #define MUSIC_LAMP_SIGNAL_STREAM_BUFFER_SIZE 70
-#define MUSIC_LAMP_SIGNAL_STREAM_FILTER_WINDOW_SIZE 20
+#define MUSIC_LAMP_SIGNAL_STREAM_FILTER_WINDOW_SIZE 10
 #define MUSIC_LAMP_SIGNAL_STREAM_MIN_ENHANCE_FACTOR 0.1
 
 class LampModule
@@ -86,6 +87,7 @@ class MusicLamp :WS2812
 	//模式
 	int mode;
 	//全局参数 (0~1)
+	uint8_t power;
 	float brightness;
 	//照明模式参数
 	uint16_t lightModeTemp;
@@ -138,6 +140,7 @@ public:
 
 
 	///参数设置
+	void setPower(int power);
 	//设置台灯模式
 	void setMode(Music_Lamp_Mode mode);
 
