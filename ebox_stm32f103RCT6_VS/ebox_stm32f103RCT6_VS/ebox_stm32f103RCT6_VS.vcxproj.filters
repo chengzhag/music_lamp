@@ -1249,6 +1249,9 @@
     <ClInclude Include="common\edriver\uart_string.h">
       <Filter>Header files\common\edriver</Filter>
     </ClInclude>
+    <ClInclude Include="user\signal_stream.h">
+      <Filter>Source files\user</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />

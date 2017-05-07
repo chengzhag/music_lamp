@@ -6,6 +6,8 @@
 #include "color_convert.h"
 #include "temp2rgb.h"
 #include "uart_string.h"
+#include "signal_stream.h"
+
 
 #define LED_COUNT 96
 #define MUSIC_LAMP_BELT_INDEX 0
@@ -65,25 +67,45 @@ class MusicLamp :WS2812
 
 	//模式
 	int mode;
-	//全局参数
+	//全局参数 (0~1)
 	float brightness;
 	//照明模式参数
 	uint16_t lightModeTemp;
 	//彩色模式参数
 	COLOR_HSV colorModeHSV;
-	//颜色变换模式参数
+	//颜色变换模式参数、函数
 	float rippleModeCurrentH;
 	float rippleModeIncrease;
+	void rippleModeRefresh(float brightness)
+	{
+		setAllDataHSV(rippleModeCurrentH, 1, brightness);
+		rippleModeCurrentH += rippleModeIncrease;
+		if (rippleModeCurrentH > 360)
+		{
+			rippleModeCurrentH = 0;
+		}
+	}
 	//音乐模式参数、函数
+	Gpio *analogPin;
+	SignalEnhance<float,50> volumes;//历史音量 (0~1)
 	void musicModeRefresh()
 	{
-
+		uint16_t ain = analog_read(analogPin);
+		float factor = volumes.pushAndGetEnhancedSignal(ain / 4096.0);
+		rippleModeRefresh(brightness*factor);
 	}
 
 public:
+
 	LampModule belt, innerRing, outerRing;
 
-	MusicLamp(Gpio *p_pin, Uart *uartX);
+	MusicLamp(Gpio *p_pin, Gpio *a_pin, Uart *uartX);
+
+	//通过串口发送调试数据
+	void printf(const char *fmt, ...)
+	{
+		uart.printf(fmt);
+	}
 
 	//初始化dma、pwm
 	void begin();
