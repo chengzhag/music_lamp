@@ -9,6 +9,7 @@
 #include "signal_stream.h"
 
 
+//台灯led参数
 #define LED_COUNT 96
 #define MUSIC_LAMP_BELT_INDEX 0
 #define MUSIC_LAMP_BELT_COUNT 60
@@ -19,8 +20,14 @@
 (MUSIC_LAMP_INNERRING_INDEX+MUSIC_LAMP_INNERRING_COUNT)
 #define MUSIC_LAMP_OUTERRING_COUNT 24
 
+//台灯音乐模式参数
+#define MUSIC_LAMP_SIGNAL_STREAM_BUFFER_SIZE 70
+#define MUSIC_LAMP_SIGNAL_STREAM_FILTER_WINDOW_SIZE 20
+#define MUSIC_LAMP_SIGNAL_STREAM_MIN_ENHANCE_FACTOR 0.1
+
 class LampModule
 {
+
 	uint8_t(*rgbData)[3];
 public:
 	LampModule(uint8_t p_data[][3]);
@@ -57,13 +64,24 @@ typedef enum
 
 class MusicLamp :WS2812
 {
+	//处理声音包络，滤波和增强
+	template<typename T, int Size>
+	class SoundEnhance :public SignalStream<T, Size>
+	{
+		T min, max;
+		void refreshMinMax();
+	public:
+		SoundEnhance();
+		void push(T signal);
+		T pushAndGetEnhancedSignal(T signal);
+	};
+
+	
+
 	//串口通信
 	UartString uart;
 	//串口字符串处理函数
-	void stringReceivedEvent(char* str)
-	{
-		uart.printf(str);
-	}
+	void stringReceivedEvent(char* str);
 
 	//模式
 	int mode;
@@ -76,45 +94,27 @@ class MusicLamp :WS2812
 	//颜色变换模式参数、函数
 	float rippleModeCurrentH;
 	float rippleModeIncrease;
-	void rippleModeRefresh(float brightness)
-	{
-		setAllDataHSV(rippleModeCurrentH, 1, brightness);
-		rippleModeCurrentH += rippleModeIncrease;
-		if (rippleModeCurrentH > 360)
-		{
-			rippleModeCurrentH = 0;
-		}
-	}
+	void rippleModeRefresh(float brightness);
 	//音乐模式参数、函数
 	Gpio *analogPin;
-	SignalEnhance<float,50> volumes;//历史音量 (0~1)
-	void musicModeRefresh()
-	{
-		uint16_t ain = analog_read(analogPin);
-		float factor = volumes.pushAndGetEnhancedSignal(ain / 4096.0);
-		rippleModeRefresh(brightness*factor);
-	}
+	
+	void musicModeRefresh();
 
 public:
-
+	SoundEnhance<float, MUSIC_LAMP_SIGNAL_STREAM_BUFFER_SIZE> volumes;//历史音量处理 (0~1)
 	LampModule belt, innerRing, outerRing;
 
+	//音乐台灯，p_pin为灯带数据接口，a_pin为麦克风检波电路模拟接口，uartX用于指令接收
 	MusicLamp(Gpio *p_pin, Gpio *a_pin, Uart *uartX);
 
 	//通过串口发送调试数据
-	void printf(const char *fmt, ...)
-	{
-		uart.printf(fmt);
-	}
+	void printf(const char *fmt, ...);
 
 	//初始化dma、pwm
 	void begin();
 
 	//发送数据
 	void sendData();
-
-	//设置台灯模式
-	void setMode(Music_Lamp_Mode mode);
 
 	//刷新台灯状态
 	void refresh();
@@ -135,7 +135,11 @@ public:
 	//COLOR_HSV &hsv
 	void setAllDataHSV(COLOR_HSV &hsv);
 
+
+
 	///参数设置
+	//设置台灯模式
+	void setMode(Music_Lamp_Mode mode);
 
 	//设置亮度
 	void setBrightness(float brightness);
@@ -144,14 +148,12 @@ public:
 	void setLightModeTemp(uint16_t temperature);
 
 	//设置颜色模式hsv
+	void setColorModeHSV(int h);
 	void setColorModeHSV(int h, float s);
 	void setColorModeHSV(int h, float s, float v);
 
 	//设置颜色变换模式速度
 	void setRippleModeIncrease(float increase);
-
-	//彩虹循环
-	void rainbowLoop(float brightness);
 
 };
 

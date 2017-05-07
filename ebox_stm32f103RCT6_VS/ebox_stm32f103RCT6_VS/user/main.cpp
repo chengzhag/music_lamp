@@ -6,24 +6,11 @@
 #include "uart_string.h"
 
 MusicLamp lamp(&PB0, &PB1, &uart1);
-SignalStream<float,10> signal;
 
 static void vLampTask(void *pvParameters)
 {
-	int i = 0;
 	while (1)
 	{
-		i++;
-		if (i % 100 == 0)
-		{
-			signal.push(i);
-			for (int j = 0; j < 10; j++)
-			{
-				lamp.printf("%f ", signal[i]);
-			}
-			lamp.printf("\n");
-		}
-		
 		lamp.refresh();
 		vTaskDelay(10 / portTICK_RATE_MS);
 	}

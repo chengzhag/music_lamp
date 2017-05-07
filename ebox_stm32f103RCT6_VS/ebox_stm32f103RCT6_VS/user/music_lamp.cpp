@@ -57,6 +57,81 @@ void LampModule::setAllDataHSV(int h, float s, float v)
 	setAllDataHSV(hsv);
 }
 
+template<typename T, int Size>
+void MusicLamp::SoundEnhance<T, Size>::refreshMinMax()
+{
+	min = SignalStream<T, Size>::buf[0];
+	max = SignalStream<T, Size>::buf[0];
+	for (int i = 1; i < Size; i++)
+	{
+		if (SignalStream<T, Size>::buf[i] < min)
+		{
+			min = SignalStream<T, Size>::buf[i];
+		}
+		if (SignalStream<T, Size>::buf[i] > max)
+		{
+			max = SignalStream<T, Size>::buf[i];
+		}
+	}
+}
+
+template<typename T, int Size>
+MusicLamp::SoundEnhance<T, Size>::SoundEnhance() :
+	SignalStream<T, Size>(),
+	min(0), max(0)
+{
+
+}
+
+template<typename T, int Size>
+void MusicLamp::SoundEnhance<T, Size>::push(T signal)
+{
+	SignalStream<T, Size>::push(signal);
+}
+
+template<typename T, int Size>
+T MusicLamp::SoundEnhance<T, Size>::pushAndGetEnhancedSignal(T signal)
+{
+	push(signal);
+	refreshMinMax();
+	float factor = max - min;
+	//在环境音较低时，防止继续增加亮度
+	if (factor < MUSIC_LAMP_SIGNAL_STREAM_MIN_ENHANCE_FACTOR)
+	{
+		factor = MUSIC_LAMP_SIGNAL_STREAM_MIN_ENHANCE_FACTOR;
+	}
+	//对最近的声音信号进行加权平均，作为滤波
+	for (int i = 1; i < MUSIC_LAMP_SIGNAL_STREAM_FILTER_WINDOW_SIZE; i++)
+	{
+		signal += SignalStream<T, Size>::operator [](i) * 2 * (1 - i / MUSIC_LAMP_SIGNAL_STREAM_FILTER_WINDOW_SIZE);
+	}
+	signal /= MUSIC_LAMP_SIGNAL_STREAM_FILTER_WINDOW_SIZE;
+	float enhancedSignal = (signal - (float)min) / factor;
+	return;
+}
+
+void MusicLamp::stringReceivedEvent(char* str)
+{
+	uart.printf(str);
+}
+
+void MusicLamp::rippleModeRefresh(float brightness)
+{
+	setAllDataHSV(rippleModeCurrentH, 1, brightness);
+	rippleModeCurrentH += rippleModeIncrease;
+	if (rippleModeCurrentH > 360)
+	{
+		rippleModeCurrentH = 0;
+	}
+}
+
+void MusicLamp::musicModeRefresh()
+{
+	uint16_t ain = analog_read(analogPin);
+	float factor = volumes.pushAndGetEnhancedSignal(ain / 4096.0);
+	rippleModeRefresh(brightness*factor);
+}
+
 MusicLamp::MusicLamp(Gpio *p_pin, Gpio *a_pin, Uart *uartX) :
 	WS2812(p_pin),
 	belt(rgbData + MUSIC_LAMP_BELT_INDEX),
@@ -73,6 +148,11 @@ MusicLamp::MusicLamp(Gpio *p_pin, Gpio *a_pin, Uart *uartX) :
 	colorModeHSV.h = 0;
 	colorModeHSV.s = 0;
 	colorModeHSV.v = 1;
+}
+
+void MusicLamp::printf(const char *fmt, ...)
+{
+	uart.printf(fmt);
 }
 
 void MusicLamp::begin()
@@ -171,12 +251,13 @@ void MusicLamp::setColorModeHSV(int h, float s, float v)
 	setBrightness(v);
 }
 
+void MusicLamp::setColorModeHSV(int h)
+{
+	colorModeHSV.h = h;
+}
+
 void MusicLamp::setRippleModeIncrease(float increase)
 {
 	rippleModeIncrease = increase;
 }
 
-void MusicLamp::rainbowLoop(float brightness)
-{
-	rainbow_Loop(brightness);
-}
