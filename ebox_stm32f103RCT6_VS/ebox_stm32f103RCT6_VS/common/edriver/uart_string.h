@@ -16,7 +16,7 @@ class UartString
 	//串口收到字节中断处理函数
 	void rxEvent();
 	//字符串接收完成处理函数
-	void(*stringEvent)(char *str);
+	FunctionPointerArg1<void,char*> stringEvent;
 public:
 	//构建基于uartX的UartString类
 	UartString(Uart *uartX);
@@ -31,13 +31,14 @@ public:
 	void attach(void(*stringEvent)(char *str));
 	//绑定字符串处理成员函数
 	template<typename T>
-	void attatch(T *pObj, void (T::*classStringEvent)(char *str));
+	void attach(T *pObj, void (T::*classStringEvent)(char *str));
 };
 
 template<typename T>
-void UartString::attatch(T *pObj, void (T::*classStringEvent)(char *str))
+void UartString::attach(T *pObj, void (T::*classStringEvent)(char *str))
 {
-	this->stringEvent = pObj->classStringEvent;
+	this->stringEvent.attach(pObj, classStringEvent);
 }
+
 
 #endif

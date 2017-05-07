@@ -5,13 +5,7 @@
 #include "music_lamp.h"
 #include "uart_string.h"
 
-MusicLamp lamp(&PB0);
-UartString uart1String(&uart1);
-
-void uart1StringReceivedEvent(char *str)
-{
-	uart1String.printf(str);
-}
+MusicLamp lamp(&PB0, &uart1);
 
 static void vLampTask(void *pvParameters)
 {
@@ -27,8 +21,6 @@ void setup()
 {
 	ebox_init();
 	//uart1.begin(9600);
-	uart1String.begin(9600);
-	uart1String.attach(uart1StringReceivedEvent);
 	lamp.begin();
 	lamp.setMode(Music_Lamp_Mode_Ripple);
 	lamp.setBrightness(0.3);

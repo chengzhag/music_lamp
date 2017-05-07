@@ -57,7 +57,7 @@ void LampModule::setAllDataHSV(int h, float s, float v)
 	setAllDataHSV(hsv);
 }
 
-MusicLamp::MusicLamp(Gpio *p_pin) :
+MusicLamp::MusicLamp(Gpio *p_pin, Uart *uartX) :
 	WS2812(p_pin),
 	belt(rgbData + MUSIC_LAMP_BELT_INDEX),
 	innerRing(rgbData + MUSIC_LAMP_INNERRING_INDEX),
@@ -66,7 +66,8 @@ MusicLamp::MusicLamp(Gpio *p_pin) :
 	brightness(0.2),
 	lightModeTemp(6000),
 	rippleModeCurrentH(0),
-	rippleModeIncrease(0.2)
+	rippleModeIncrease(0.2),
+	uart(uartX)
 {
 	colorModeHSV.h = 0;
 	colorModeHSV.s = 0;
@@ -76,6 +77,8 @@ MusicLamp::MusicLamp(Gpio *p_pin) :
 void MusicLamp::begin()
 {
 	WS2812::begin();
+	uart.begin(9600);
+	uart.attach(this, &MusicLamp::stringReceivedEvent);
 }
 
 void MusicLamp::sendData()
@@ -108,7 +111,7 @@ void MusicLamp::refresh()
 		}
 		break;
 	case Music_Lamp_Mode_Music:
-
+		musicModeRefresh();
 		break;
 	default:
 		break;

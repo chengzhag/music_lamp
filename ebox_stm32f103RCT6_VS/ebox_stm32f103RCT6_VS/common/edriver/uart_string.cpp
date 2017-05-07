@@ -11,7 +11,7 @@ void UartString::rxEvent()
 		if (c == '\n' || bufferIndex == UART_STRING_BUFFER_SIZE - 1)
 		{
 			buffer[bufferIndex] = '\0';
-			stringEvent(buffer);
+			stringEvent.call(buffer);
 			bufferIndex = 0;
 		}
 	}
@@ -44,5 +44,5 @@ void UartString::printf(const char *fmt, ...)
 
 void UartString::attach(void(*stringEvent)(char *str))
 {
-	this->stringEvent = stringEvent;
+	this->stringEvent.attach(stringEvent);
 }

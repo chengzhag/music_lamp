@@ -55,6 +55,15 @@ typedef enum
 
 class MusicLamp :WS2812
 {
+	//串口通信
+	UartString uart;
+	//串口字符串处理函数
+	void stringReceivedEvent(char* str)
+	{
+		uart.printf(str);
+	}
+
+	//模式
 	int mode;
 	//全局参数
 	float brightness;
@@ -65,11 +74,16 @@ class MusicLamp :WS2812
 	//颜色变换模式参数
 	float rippleModeCurrentH;
 	float rippleModeIncrease;
+	//音乐模式参数、函数
+	void musicModeRefresh()
+	{
+
+	}
 
 public:
 	LampModule belt, innerRing, outerRing;
 
-	MusicLamp(Gpio *p_pin);
+	MusicLamp(Gpio *p_pin, Uart *uartX);
 
 	//初始化dma、pwm
 	void begin();
