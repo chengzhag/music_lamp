@@ -1250,7 +1250,7 @@
       <Filter>Header files\common\edriver</Filter>
     </ClInclude>
     <ClInclude Include="user\signal_stream.h">
-      <Filter>Source files\user</Filter>
+      <Filter>Header files\user</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
