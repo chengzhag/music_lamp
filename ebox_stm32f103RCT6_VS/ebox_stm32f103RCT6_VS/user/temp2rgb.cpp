@@ -406,7 +406,15 @@ COLOR_RGB temp2rgb(uint16_t temp)
 		temp = TEMP_END;
 	}
 
-	uint16_t index = (temp - TEMP_START)/TEMP_INCREASE;
+	int index = (temp - TEMP_START)/TEMP_INCREASE;
+	if (index > TEMP_COUNT - 1)
+	{
+		index = TEMP_COUNT - 1;
+	}
+	else if (index < 0)
+	{
+		index = 0;
+	}
 	rgb.r = temp2rgbTable[index][0];
 	rgb.g = temp2rgbTable[index][1];
 	rgb.b = temp2rgbTable[index][2];

@@ -10,9 +10,11 @@ void UartString::rxEvent()
 		bufferIndex++;
 		if (c == '\n' || bufferIndex == UART_STRING_BUFFER_SIZE - 1)
 		{
+			uart->attach(NULL, RxIrq);
 			buffer[bufferIndex] = '\0';
 			stringEvent.call(buffer);
 			bufferIndex = 0;
+			uart->attach(this, &UartString::rxEvent, RxIrq);
 		}
 	}
 }

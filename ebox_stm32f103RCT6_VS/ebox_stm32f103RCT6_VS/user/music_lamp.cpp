@@ -116,92 +116,99 @@ void MusicLamp::stringReceivedEvent(char* str)
 	json = cJSON_Parse(str);
 	if (!json)
 	{
-		printf("Error before: [%s]\n", cJSON_GetErrorPtr());
+		//uart.printf("Error before: [%s]\n", cJSON_GetErrorPtr());
 	}
 	else
 	{
 		//解析函数名
 		jsonMethod = cJSON_GetObjectItem(json, "method");
 		char *method;
-		if (jsonMethod->type == cJSON_String)
+		if (jsonMethod && jsonMethod->type == cJSON_String)
 		{
 			// 从valueint中获得结果  
 			method = jsonMethod->valuestring;
-		}
-		//解析参数列表
-		jsonParams = cJSON_GetObjectItem(json, "params");
-		//根据函数名调用对应函数
-
-		//setMode
-		if (strcmp(method,"setMode")==0)
-		{
-			if (jsonParams->type == cJSON_Number)
+			//解析参数列表
+			jsonParams = cJSON_GetObjectItem(json, "params");
+			//根据函数名调用对应函数
+			if (jsonParams)
 			{
-				setMode((Music_Lamp_Mode)(jsonParams->valueint));
-			}
-		}
-		else if (strcmp(method, "setBrightness") == 0)
-		{
-			if (jsonParams->type == cJSON_Number)
-			{
-				setBrightness((float)(jsonParams->valuedouble));
-			}
-		}
-		else if (strcmp(method, "setLightModeTemp") == 0)
-		{
-			if (jsonParams->type == cJSON_Number)
-			{
-				setLightModeTemp((float)(jsonParams->valueint));
-			}
-		}
-		else if (strcmp(method, "setColorModeHSV") == 0)
-		{
-			if (jsonParams->type == cJSON_Number)
-			{
-				setColorModeHSV((jsonParams->valueint));
-			}
-			else if (jsonParams->type == cJSON_Array)
-			{
-				int size = cJSON_GetArraySize(jsonParams);
-				cJSON *item;
-				if (size==1)
+				//setMode
+				if (strcmp(method, "setMode") == 0)
 				{
-					setColorModeHSV(
-						cJSON_GetArrayItem(jsonParams, 0)->valueint
-					);
+					if (jsonParams->type == cJSON_Number)
+					{
+						setMode((Music_Lamp_Mode)(jsonParams->valueint));
+					}
 				}
-				if (size==2)
+				else if (strcmp(method, "setBrightness") == 0)
 				{
-					setColorModeHSV(
-						cJSON_GetArrayItem(jsonParams, 0)->valueint,
-						(float)(cJSON_GetArrayItem(jsonParams, 1)->valuedouble)
-					);
+					if (jsonParams->type == cJSON_Number)
+					{
+						setBrightness((float)(jsonParams->valuedouble));
+					}
 				}
-				else if (size == 3)
+				else if (strcmp(method, "setLightModeTemp") == 0)
 				{
-					setColorModeHSV(
-						cJSON_GetArrayItem(jsonParams, 0)->valueint,
-						(float)(cJSON_GetArrayItem(jsonParams, 1)->valuedouble),
-						(float)(cJSON_GetArrayItem(jsonParams, 2)->valuedouble)
-					);
+					if (jsonParams->type == cJSON_Number)
+					{
+						setLightModeTemp((float)(jsonParams->valueint));
+					}
+				}
+				else if (strcmp(method, "setColorModeHSV") == 0)
+				{
+					if (jsonParams->type == cJSON_Number)
+					{
+						setColorModeHSV((jsonParams->valueint));
+					}
+					else if (jsonParams->type == cJSON_Array)
+					{
+						int size = cJSON_GetArraySize(jsonParams);
+						cJSON *item;
+						if (size == 1)
+						{
+							setColorModeHSV(
+								cJSON_GetArrayItem(jsonParams, 0)->valueint
+							);
+						}
+						if (size == 2)
+						{
+							setColorModeHSV(
+								cJSON_GetArrayItem(jsonParams, 0)->valueint,
+								(float)(cJSON_GetArrayItem(jsonParams, 1)->valuedouble)
+							);
+						}
+						else if (size == 3)
+						{
+							setColorModeHSV(
+								cJSON_GetArrayItem(jsonParams, 0)->valueint,
+								(float)(cJSON_GetArrayItem(jsonParams, 1)->valuedouble),
+								(float)(cJSON_GetArrayItem(jsonParams, 2)->valuedouble)
+							);
+						}
+					}
+				}
+				else if (strcmp(method, "setRippleModeIncrease") == 0)
+				{
+					if (jsonParams->type == cJSON_Number)
+					{
+						setRippleModeIncrease((float)(jsonParams->valuedouble));
+					}
+				}
+				else if (strcmp(method, "setPower") == 0)
+				{
+					if (jsonParams->type == cJSON_Number)
+					{
+						setPower(jsonParams->valueint);
+					}
 				}
 			}
+			
 		}
-		else if (strcmp(method, "setRippleModeIncrease") == 0)
-		{
-			if (jsonParams->type == cJSON_Number)
-			{
-				setRippleModeIncrease((float)(jsonParams->valuedouble));
-			}
-		}
-		else if (strcmp(method, "setPower") == 0)
-		{
-			if (jsonParams->type == cJSON_Number)
-			{
-				setPower(jsonParams->valueint);
-			}
-		}
+		
 	}
+	cJSON_Delete(json);
+	cJSON_Delete(jsonMethod);
+	cJSON_Delete(jsonParams);
 }
 
 void MusicLamp::rippleModeRefresh(float brightness)
